@@ -1,7 +1,5 @@
-<?php 
+<?php
 
-if (!empty($_POST)) {
-	
 	$connect = mysqli_connect('localhost', 'root', 'password', 'shop');
 
 	if( mysqli_connect_errno() ) {
@@ -13,9 +11,11 @@ if (!empty($_POST)) {
 
 	mysqli_set_charset($connect, 'utf8');
 
-	$name = $_POST['name'] ?? '';
+	$id = $_POST['id'];
 
-	$query = "INSERT INTO products(name) VALUES ('$name')";
+	var_dump($id);
+
+	$query = "DELETE FROM products WHERE id=$id";
 
 	$request = mysqli_query($connect, $query);
 
@@ -26,14 +26,3 @@ if (!empty($_POST)) {
 	}
 
 	header('Location: /');
-}
-
-?>
-
-<form method="POST">
-	<label>
-		<span>Название товара</span>
-		<input type="text" name="name">
-	</label>
-	<button>Отправить</button>
-</form>
