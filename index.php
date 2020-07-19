@@ -24,6 +24,8 @@ if ( mysqli_errno($connect) ) {
 
 $has_th = false;
 
+echo "<a href=\"add.php\">Добавить товар</a><br /><br />";
+
 echo '<table border="1" celloadding="3">';
 
 while ($row = mysqli_fetch_assoc($request)) {
@@ -45,9 +47,6 @@ while ($row = mysqli_fetch_assoc($request)) {
 		echo "</td>";
 
 	echo "</tr>";
-
-
-	var_dump($row);
 } 
 
 
