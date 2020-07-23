@@ -46,7 +46,7 @@ while ($row = mysqli_fetch_assoc($request)) {
 
 		$id = $row["id"];
 		
-		echo "<a href=\"edit.php\">Редактировать</a> | <form action=\"/delete.php\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$id\" /><input type=\"submit\" value=\"Удалить\" /></form>";
+		echo "<a href=\"edit.php?id=$id\">Редактировать</a> | <form action=\"/delete.php\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"$id\" /><input type=\"submit\" value=\"Удалить\" /></form>";
 		echo "</td>";
 
 	echo "</tr>";
