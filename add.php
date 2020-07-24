@@ -1,31 +1,20 @@
 <?php 
 
+require_once 'db.php';
+
 if (!empty($_POST)) {
-	
-	$connect = mysqli_connect('localhost', 'root', 'password', 'shop');
-
-	if( mysqli_connect_errno() ) {
-
-		var_dump(mysqli_connect_error());
-
-		exit;
-	}
-
-	mysqli_set_charset($connect, 'utf8');
 
 	$name = $_POST['name'] ?? '';
 
 	$query = "INSERT INTO products(name) VALUES ('$name')";
 
-	$request = mysqli_query($connect, $query);
+	$request = query($connect, $query);
 
-	if ( mysqli_errno($connect) ) {
-		var_dump(mysqli_error($connect));
-
-		exit;
+	if (mysqli_affected_rows($connect)) {
+		header('Location: /');
+	} else {
+		die('error');
 	}
-
-	header('Location: /');
 }
 
 ?>

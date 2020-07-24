@@ -1,28 +1,13 @@
 <?php
 
-
-$connect = mysqli_connect('localhost', 'root', 'password', 'shop');
-
-if( mysqli_connect_errno() ) {
-
-	var_dump(mysqli_connect_error());
-
-	exit;
-}
-
-mysqli_set_charset($connect, 'utf8');
+require_once 'db.php';
 
 $query = "SELECT * from `products`";
 
-$request = mysqli_query($connect, $query);
-
-if ( mysqli_errno($connect) ) {
-	var_dump(mysqli_error($connect));
-
-	exit;
-}
+$request = query($connect, $query); 
 
 $has_th = false;
+
 
 echo "<a href=\"add.php\">Добавить товар</a><br /><br />";
 
@@ -31,7 +16,7 @@ echo '<table border="1" celloadding="3">';
 while ($row = mysqli_fetch_assoc($request)) {
 
 	if (!$has_th) {
-		echo "<tr><th>#</th><th>Название товара</th><th></th></tr>";
+		echo "<tr><th>#</th><th>Название товара</th><th>ID Категории</th><th></th></tr>";
 		$has_th = true;
 	}
 	echo "<tr>";
