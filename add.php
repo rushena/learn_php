@@ -5,8 +5,12 @@ require_once 'db.php';
 if (!empty($_POST)) {
 
 	$name = $_POST['name'] ?? '';
+	$description = $_POST['description'] ?? '';
+	$article = $_POST['article'] ?? 0;
+	$price = (int) $_POST['price'] ?? 0;
+	$amount = (int) $_POST['amount'] ?? 0;	
 
-	$query = "INSERT INTO products(name) VALUES ('$name')";
+	$query = "INSERT INTO products (`name`, `article`, `price`, `amount`, `description`) VALUES ('$name', '$article', $price, $amount, '$description')";
 
 	$request = query($connect, $query);
 
@@ -17,12 +21,4 @@ if (!empty($_POST)) {
 	}
 }
 
-?>
-
-<form method="POST">
-	<label>
-		<span>Название товара</span>
-		<input type="text" name="name">
-	</label>
-	<button>Отправить</button>
-</form>
+$smarty->display('products/add.tpl');
