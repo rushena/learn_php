@@ -1,11 +1,11 @@
 <?php 
 
-require_once('libs/Smarty/Smarty.class.php');
+require_once __DIR__ . '/../libs/Smarty/Smarty.class.php';
 
 $smarty = new Smarty();
-$smarty->compile_dir = __DIR__ . '/var/compile';
-$smarty->cache_dir = __DIR__ . '/var/cache';
-$smarty->template_dir = __DIR__ . '/templates';
+$smarty->compile_dir = __DIR__ . '/../var/compile';
+$smarty->cache_dir = __DIR__ . '/../var/cache';
+$smarty->template_dir = __DIR__ . '/../templates';
 
 function connect ($host, $user, $password, $database) {
 	$connect = mysqli_connect($host, $user, $password, $database);

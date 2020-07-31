@@ -1,6 +1,6 @@
 <?php
 	 
-require_once 'db.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/config.php';
 
 $id = $_GET["id"] ?? 0;
 

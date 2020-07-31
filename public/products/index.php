@@ -1,6 +1,6 @@
 <?php
 
-require_once 'db.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/config.php';
 
 $query = "SELECT * from `products`";
 $request = query($connect, $query); 
