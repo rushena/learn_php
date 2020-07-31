@@ -2,17 +2,11 @@
 
 if (!empty($_POST)) {
 
-	$name = $_POST['name'] ?? '';
-	$description = $_POST['description'] ?? '';
-	$article = $_POST['article'] ?? 0;
-	$price = (int) $_POST['price'] ?? 0;
-	$amount = (int) $_POST['amount'] ?? 0;	
+	$product = get_products_from_post();
 
-	$query = "INSERT INTO products (`name`, `article`, `price`, `amount`, `description`) VALUES ('$name', '$article', $price, $amount, '$description')";
+	$is_added = add_product($connect, $product);
 
-	$request = query($connect, $query);
-
-	if (mysqli_affected_rows($connect)) {
+	if ($is_added) {
 		header('Location: /products/list');
 	} else {
 		die('error');

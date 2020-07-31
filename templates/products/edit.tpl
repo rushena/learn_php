@@ -1,4 +1,4 @@
-{include file="header.tpl" h1="Редактировать товар"}
+{include file="header.tpl" h1="Редактировать категорию"}
 
 <div class="row justify-content-center">
 	<div class="col col-xl-8 col-lg-10">

@@ -2,28 +2,15 @@
 
 $id = $_GET["id"] ?? 0;
 
-$query = "SELECT * from `products` WHERE id=$id";
-
-$request = query($connect, $query);
-
-$result = mysqli_fetch_assoc($request);
+$result = get_product_by_id($connect, $id);
 
 if (!empty($_POST)) {
 
-	var_dump($_POST);
+	$editedProduct = get_products_from_post();
 
-	$id = (int) $_POST['id'] ?? 0;
-	$name = $_POST['name'] ?? '';
-	$article = $_POST['article'] ?? '';
-	$price = (int) $_POST['price'] ?? 0;
-	$amount = (int) $_POST['amount'] ?? 0;
-	$description = $_POST['description'] ?? '';
+	$is_updated = update_product_by_id($connect, $editedProduct['id'], $editedProduct);
 
-	$query = "UPDATE products SET name = '$name', article = '$article', price = $price, amount = $amount, description = '$description' WHERE id = $id";
-
-	$request = query($connect, $query);
-
-	if (mysqli_affected_rows($connect)) {
+	if ($is_updated) {
 		header('Location: /products/list');
 	} else {
 		die('not edited items');

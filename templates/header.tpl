@@ -13,7 +13,7 @@
 			<a class="nav-link" href="/products/list">Список товаров</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="/products/">Список Категорий</a>
+			<a class="nav-link" href="/categories/list">Список Категорий</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="/products/">Импорт товаров</a>

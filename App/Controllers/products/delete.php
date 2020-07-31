@@ -1,14 +1,10 @@
 <?php
 
-echo var_dump('dfs');
-
 $id = $_POST['id'] ?? 0;
 
-$query = "DELETE FROM products WHERE id=$id";
+$is_deleted = delete_product_by_id($connect, $id);
 
-$request = query($connect, $query);
-
-if (mysqli_affected_rows($connect)) {
+if ($is_deleted) {
 	header('Location: /products/list');
 } else {
 	die('error');
