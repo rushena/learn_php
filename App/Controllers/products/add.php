@@ -1,7 +1,5 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/config.php';
-
 if (!empty($_POST)) {
 
 	$name = $_POST['name'] ?? '';
@@ -15,7 +13,7 @@ if (!empty($_POST)) {
 	$request = query($connect, $query);
 
 	if (mysqli_affected_rows($connect)) {
-		header('Location: /');
+		header('Location: /products/list');
 	} else {
 		die('error');
 	}

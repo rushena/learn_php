@@ -1,6 +1,4 @@
 <?php
-	 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/config.php';
 
 $id = $_GET["id"] ?? 0;
 
@@ -26,7 +24,7 @@ if (!empty($_POST)) {
 	$request = query($connect, $query);
 
 	if (mysqli_affected_rows($connect)) {
-		header('Location: /');
+		header('Location: /products/list');
 	} else {
 		die('not edited items');
 	}

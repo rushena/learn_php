@@ -1,6 +1,6 @@
 {include file="header.tpl" h1="Список товаров"}
 
-<a href="add.php" class="btn btn-success">Добавить новый товар</a>
+<a href="/products/add" class="btn btn-success">Добавить новый товар</a>
 <br />
 <br />
 
@@ -28,8 +28,8 @@
 				<td>{$e.amount}</td>
 				<td>{$e.price}</td>
 				<td>
-					<a href="edit.php?id={$e.id}" class="btn btn-info btn-sm">Редактировать</a>
-					<form class="d-inline-block remove-product" action="/delete.php" method="post"><input type="hidden" name="id" value="{$e.id}" /><button type="submit" class="btn btn-danger btn-sm">Удалить</button></form>
+					<a href="/products/edit?id={$e.id}" class="btn btn-info btn-sm">Редактировать</a>
+					<form class="d-inline-block remove-product" action="/products/delete" method="post"><input type="hidden" name="id" value="{$e.id}" /><button type="submit" class="btn btn-danger btn-sm">Удалить</button></form>
 				</td>
 			</tr>
 		{/foreach}
