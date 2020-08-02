@@ -8,9 +8,11 @@ if ($path_info[strlen($path_info) - 1] === '/') {
 	$path_info .= 'list';
 }
 
+$categories = get_categories_list($connect);
+
+$smarty->assign('categories', $categories);
 
 $controller_path = $_SERVER['DOCUMENT_ROOT'] . '/../App/Controllers' . $path_info . '.php';
-
 
 if (file_exists($controller_path)) {
 	require_once $controller_path;

@@ -1,4 +1,4 @@
-{include file="header.tpl" h1="Редактировать категорию"}
+{include file="header.tpl" h1="Редактировать товар"}
 
 <div class="row justify-content-center">
 	<div class="col col-xl-8 col-lg-10">
@@ -11,6 +11,15 @@
 			<div class="form-group">
 				<label for="exampleInputEmail1">Описание товара:</label>
 				<textarea class="form-control" name="description">{$editedProduct.description}</textarea>
+			</div>
+			<div class="form-group">
+				<label>Выберите категорию:</label>
+				<select class="form-control" name="category_id">
+					<option value="0">Не выбрано</option>
+					{foreach from=$categories item=i key=k}
+						<option {if $i.id === $editedProduct.category_id}selected {/if}value="{$i.id}">{$i.name}</option>
+					{/foreach}
+				</select>
 			</div>
 			<div class="form-group">
 				<label for="exampleInputEmail1">Артикул товара:</label>

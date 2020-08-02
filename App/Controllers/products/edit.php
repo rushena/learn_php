@@ -17,5 +17,8 @@ if (!empty($_POST)) {
 	}
 }
 
+$categories = get_categories_list($connect);
+
+$smarty->assign('categories', $categories);
 $smarty->assign('editedProduct', $result);
 $smarty->display('products/edit.tpl');

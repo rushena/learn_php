@@ -8,6 +8,15 @@
 				<input type="text" name="name" class="form-control">
 			</div>
 			<div class="form-group">
+				<label>Выберите категорию:</label>
+				<select class="form-control" name="category_id" value>
+					<option value="0">Не выбрано</option>
+					{foreach from=$categories item=i key=k}
+						<option value="{$i.id}">{$i.name}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="form-group">
 				<label>Описание товара:</label>
 				<textarea class="form-control" name="description"></textarea>
 			</div>
