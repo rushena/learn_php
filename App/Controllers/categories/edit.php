@@ -2,13 +2,13 @@
 
 $id = $_GET["id"] ?? 0;
 
-$result = get_category_by_id($connect, $id);
+$result = Category::getByID($id);
 
 if (!empty($_POST)) {
 
-	$editedCategory = get_category_from_post();
+	$editedCategory = Category::getFromPost();
 
-	$is_updated = update_category_by_id($connect, $editedCategory['id'], $editedCategory);
+	$is_updated = Category::updateByID($editedCategory['id'], $editedCategory);
 
 	if ($is_updated) {
 		header('Location: /categories/list');

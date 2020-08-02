@@ -2,13 +2,13 @@
 
 $id = $_GET["id"] ?? 0;
 
-$result = get_product_by_id($connect, $id);
+$result = Product::getByID($id);
 
 if (!empty($_POST)) {
 
-	$editedProduct = get_products_from_post();
+	$editedProduct = Product::getFromPost();
 
-	$is_updated = update_product_by_id($connect, $editedProduct['id'], $editedProduct);
+	$is_updated = Product::updateByID($editedProduct['id'], $editedProduct);
 
 	if ($is_updated) {
 		header('Location: /products/list');
@@ -17,7 +17,7 @@ if (!empty($_POST)) {
 	}
 }
 
-$categories = get_categories_list($connect);
+$categories = Category::getList();
 
 $smarty->assign('categories', $categories);
 $smarty->assign('editedProduct', $result);

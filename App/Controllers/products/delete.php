@@ -2,7 +2,7 @@
 
 $id = $_POST['id'] ?? 0;
 
-$is_deleted = delete_product_by_id($connect, $id);
+$is_deleted = Product::deleteByID($id);
 
 if ($is_deleted) {
 	header('Location: /products/list');

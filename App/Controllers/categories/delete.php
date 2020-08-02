@@ -2,7 +2,7 @@
 
 $id = $_POST['id'] ?? 0;
 
-$is_deleted = delete_category_by_id($connect, $id);
+$is_deleted = Category::deleteByID($id);
 
 if ($is_deleted) {
 	header('Location: /categories/list');

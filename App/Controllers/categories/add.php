@@ -2,9 +2,9 @@
 
 if (!empty($_POST)) {
 
-	$сategory = get_category_from_post();
+	$сategory = Category::getFromPost();
 
-	$is_added = add_category($connect, $сategory);
+	$is_added = Category::add($сategory);
 
 	if ($is_added) {
 		header('Location: /categories/list');

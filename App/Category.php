@@ -1,64 +1,68 @@
 <?php
 
-function get_categories_list($connect) {
+class Category {
 
-	$query = "SELECT * from `categories`";
-	$request = query($connect, $query); 
+	public static function getList() {
 
-	$categoriesList = [];
+		$query = "SELECT * from `categories`";
+		$request = Db::query($query); 
 
-	while ($row = mysqli_fetch_assoc($request)) {
-		$categoriesList[] = $row;
+		$categoriesList = [];
+
+		while ($row = mysqli_fetch_assoc($request)) {
+			$categoriesList[] = $row;
+		}
+
+		return $categoriesList;
 	}
 
-	return $categoriesList;
-}
+	public static function getByID($id) {
+		$query = "SELECT * from `categories` WHERE id=$id";
+		$request = Db::query($query);
 
-function get_category_by_id($connect, $id) {
-	$query = "SELECT * from `categories` WHERE id=$id";
-	$request = query($connect, $query);
+		$result = mysqli_fetch_assoc($request);
 
-	$result = mysqli_fetch_assoc($request);
+		if (is_null($result)) {
+			return [];
+		}
 
-	if (is_null($result)) {
-		return [];
+		return $result;
 	}
 
-	return $result;
-}
+	public static function updateByID($id, $category) {
+		$name = $category['name'] ?? '';
 
-function update_category_by_id($connect, $id, $category) {
-	$name = $category['name'] ?? '';
+		$query = "UPDATE `categories` SET name = '$name' WHERE id = $id";
 
-	$query = "UPDATE `categories` SET name = '$name' WHERE id = $id";
+		Db::query($connect, $query);
 
-	query($connect, $query);
+		return Db::affectedRows();
+	}
 
-	return mysqli_affected_rows($connect);
-}
+	public static function add($category) {
 
-function add_category($connect, $category) {
+		$name = $category['name'] ?? '';
 
-	$name = $category['name'] ?? '';
+		$query = "INSERT INTO `categories` (`name`) VALUES ('$name')";
 
-	$query = "INSERT INTO `categories` (`name`) VALUES ('$name')";
+		Db::query($connect, $query);
 
-	query($connect, $query);
+		return Db::affectedRows();
+	}
 
-	return mysqli_affected_rows($connect);
-}
+	public static function deleteByID($id) {
+		$query = "DELETE FROM `categories` WHERE id=$id";
 
-function delete_category_by_id($connect, $id) {
-	$query = "DELETE FROM `categories` WHERE id=$id";
+		$request = Db::query($query);
 
-	$request = query($connect, $query);
+		return Db::affectedRows();
+	}
 
-	return mysqli_affected_rows($connect);
-}
+	public static function getFromPost() {
+		return [
+			'id' => $_POST['id'] ?? '',
+			'name' => $_POST['name'] ?? '',
+		];
+	}
 
-function get_category_from_post() {
-	return [
-		'id' => $_POST['id'] ?? '',
-		'name' => $_POST['name'] ?? '',
-	];
 }

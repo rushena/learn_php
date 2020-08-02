@@ -8,7 +8,7 @@ if ($path_info[strlen($path_info) - 1] === '/') {
 	$path_info .= 'list';
 }
 
-$categories = get_categories_list($connect);
+$categories = Category::getList($connect);
 
 $smarty->assign('categories', $categories);
 
