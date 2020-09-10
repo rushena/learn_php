@@ -1,22 +1,21 @@
 <?php
 
+use App\Category;
+use App\Renderer;
+
 require_once 'config.php';
 
-$path_info = $_SERVER['PATH_INFO'];
+$categories = Category::getList();
+Renderer::getSmarty()->assign('categories', $categories);
 
-if ($path_info[strlen($path_info) - 1] === '/') {
-	$path_info .= 'list';
-}
+$dispatcher = new App\Router\Dispatcher();
 
-$categories = Category::getList($connect);
+$dispatcher->dispatch();
 
-$smarty->assign('categories', $categories);
 
-$controller_path = $_SERVER['DOCUMENT_ROOT'] . '/../App/Controllers' . $path_info . '.php';
-
-if (file_exists($controller_path)) {
-	require_once $controller_path;
-} else {
-	$smarty->display('404.tpl');
-}
-
+//$is_index = substr($url, -1) == '/';
+//if ($is_index) {
+//	$url .= 'list';
+//}
+//
+//$controller_path = $_SERVER['DOCUMENT_ROOT'] . '/../App/Controllers' . $path_info . '.php';

@@ -10,8 +10,6 @@
 			<th>ID</th>
 			<th>Название</th>
 			<th>Описание</th>
-			<th>Артукул</th>
-			<th>Категория</th>
 			<th>Кол-во</th>
 			<th>Цена</th>
 			<th></th>				
@@ -20,16 +18,26 @@
 	<tbody>
 		{foreach from=$products item=e key=k}
 			<tr>
-				<th width="50">{$e.id}</th>
-				<td>{$e.name}</td>
-				<td>{$e.description}</td>
-				<td>{$e.article}</td>
-				<td>{$e.category_name}</td>
-				<td>{$e.amount}</td>
-				<td>{$e.price}</td>
+				<th width="50">{$e->getId()}</th>
+				<td>
+					{$e->getName()}
+					<br><br>
+					{foreach from=$e->getImages() item=image}
+						<img height="50" src="{$image->getPath()}" class="img-thumbnail product-list-image">
+					{/foreach}
+				</td>
+				<td>
+					{assign var=productCategory value=$e->getCategory()}
+					{assign var=productCategoryName value=$productCategory->getName()}
+					{if $productCategoryName}<b>Категория: {$productCategoryName}</b><br>{/if}
+					<b>Артикул: {$e->getArticle()}</b><br><br>
+					{$e->getDescription()|nl2br}
+				</td>
+				<td>{$e->getAmount()}</td>
+				<td>{$e->getPrice()}</td>
 				<td width="230">
-					<a href="/products/edit?id={$e.id}" class="btn btn-info btn-sm">Редактировать</a>
-					<form class="d-inline-block remove-product" action="/products/delete" method="post"><input type="hidden" name="id" value="{$e.id}" /><button type="submit" class="btn btn-danger btn-sm">Удалить</button></form>
+					<a href="/products/edit/{$e->getId()}" class="btn btn-info btn-sm">Редактировать</a>
+					<form class="d-inline-block remove-product" action="/products/delete" method="post"><input type="hidden" name="id" value="{$e->getId()}" /><button type="submit" class="btn btn-danger btn-sm">Удалить</button></form>
 				</td>
 			</tr>
 		{/foreach}

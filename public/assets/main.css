@@ -23,3 +23,21 @@ body {
 }
 
 .site-top-navbar {margin-left: -15px; margin-right: -15px;}
+
+body .product-list-image {
+	height: 50px;
+	width: auto;
+	margin-right: 8px;
+}
+
+body .upload-images {
+	height: auto;
+}
+
+.edit-product-images {margin-top: 8px;}
+.edit-image-item {
+	margin: 0 8px 8px 0;
+	padding: 8px;
+	text-align: center;
+}
+.delete-image {margin-top: 8px;}

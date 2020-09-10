@@ -2,7 +2,7 @@
 
 <div class="row justify-content-center">
 	<div class="col col-xl-8 col-lg-10">
-		<form method="post">
+		<form method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label >Название товара:</label>
 				<input type="text" name="name" class="form-control">
@@ -23,6 +23,14 @@
 			<div class="form-group">
 				<label>Артикул товара:</label>
 				<input type="text" name="article" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Изображения товара:</label>
+				<input type="file" name="images[]" accept="image/*" value="" multiple class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Ссылка на изображение:</label>
+				<input type="text" name="image_url" class="form-control">
 			</div>
 			<div class="form-group">
 				<label>Количество товара на складе:</label>

@@ -13,9 +13,9 @@
 
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="/products/list">Список товаров</a></li>
-				<li class="nav-item"><a class="nav-link" href="/categories/list">Список Категорий</a></li>
-				<li class="nav-item"><a class="nav-link" href="/products/">Импорт товаров</a></li>
+				<li class="nav-item"><a class="nav-link" href="/products">Список товаров</a></li>
+				<li class="nav-item"><a class="nav-link" href="/categories">Список Категорий</a></li>
+				<li class="nav-item"><a class="nav-link" href="/import">Импорт товаров</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -23,7 +23,7 @@
 	<ul class="nav nav-pills categories-menu">
 		{foreach from=$categories item=e key=k}
 			<li class="nav-item">
-				<a class="btn btn-primary nav-link categories-menu__item{if $e.id === $current_category.id} btn-success{/if}" href="/categories/view?id={$e.id}">{$e.name}</a>
+				<a class="btn btn-primary nav-link categories-menu__item{if $e.id === $current_category.id} btn-success{/if}" href="/categories/view/{$e.id}">{$e.name}</a>
 			</li>
 		{/foreach}
 	</ul>

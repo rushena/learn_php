@@ -1,0 +1,17 @@
+{
+    "name": "rushena/php_learn",
+    "authors": [
+        {
+            "name": "Rushena",
+            "email": "rushena2706@gmail.com"
+        }
+    ],
+    "require": {
+        "smarty/smarty": "2.6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    }
+}

@@ -1,67 +1,50 @@
 <?php
 
+namespace App;
+
+use App\Db\Db;
+
 class Category {
 
 	public static function getList() {
 
 		$query = "SELECT * from `categories`";
-		$request = Db::query($query); 
 
-		$categoriesList = [];
-
-		while ($row = mysqli_fetch_assoc($request)) {
-			$categoriesList[] = $row;
-		}
-
-		return $categoriesList;
+		return Db::fetchAll($query);
 	}
+
+	public static function getByCategoryName(string $categoryName) {
+	    $query = "SELECT * from `categories` WHERE name='$categoryName'";
+	    return Db::fetchRow($query);
+    }
 
 	public static function getByID($id) {
 		$query = "SELECT * from `categories` WHERE id=$id";
-		$request = Db::query($query);
-
-		$result = mysqli_fetch_assoc($request);
-
-		if (is_null($result)) {
-			return [];
-		}
-
-		return $result;
+		return Db::fetchRow($query);
 	}
 
 	public static function updateByID($id, $category) {
-		$name = $category['name'] ?? '';
-
-		$query = "UPDATE `categories` SET name = '$name' WHERE id = $id";
-
-		Db::query($connect, $query);
-
-		return Db::affectedRows();
+		if (isset($category['id'])) {
+			unset($category['id']);
+		}
+		return Db::update('categories', $category, "id = $id");
 	}
 
 	public static function add($category) {
-
-		$name = $category['name'] ?? '';
-
-		$query = "INSERT INTO `categories` (`name`) VALUES ('$name')";
-
-		Db::query($connect, $query);
-
-		return Db::affectedRows();
+		if (isset($category['id'])) {
+			unset($category['id']);
+		}
+		return Db::insert('categories', $category);
 	}
 
 	public static function deleteByID($id) {
-		$query = "DELETE FROM `categories` WHERE id=$id";
-
-		$request = Db::query($query);
-
-		return Db::affectedRows();
+		return Db::delete("categories", "id=$id");
 	}
 
 	public static function getFromPost() {
 		return [
-			'id' => $_POST['id'] ?? '',
-			'name' => $_POST['name'] ?? '',
+			'id' => Request::getIntFromPost('id', 0),
+			'name' => Request::getStringFromPost('name'),
 		];
 	}
 
