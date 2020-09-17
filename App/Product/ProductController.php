@@ -2,13 +2,10 @@
 
 namespace App\Product;
 
-use App\Product\ProductRepository;
 use App\Request;
 use App\Renderer;
-use App\Category;
+use App\CategoryService;
 use App\Category\CategoryModel;
-use App\Product;
-use App\ProductImage;
 use App\Response;
 use App\Router\Route;
 
@@ -23,15 +20,21 @@ class ProductController
 		$this->route = $route;
 	}
 
-	public function list()
+	/**
+	 * @param ProductRepository $productRepository
+	 * @param Request $request
+	 * @throws \Exception
+	 *
+	 * @route("/product_list")
+	 */
+
+	public function list(ProductRepository $productRepository, Request $request)
 	{
-		$current_page = Request::getIntFromGet('p', 1);
-		$products_count = \App\Product::getListCount();
+		$current_page = $request->getIntFromGet('p', 1);
+		$products_count = $productRepository->getListCount();
 		$limit = 10;
 		$offset = ($current_page - 1) * $limit;
 		$pages_count = ceil($products_count / $limit);
-
-		$productRepository = new ProductRepository();
 
 		$products = $productRepository->getList($limit, $offset);
 
@@ -40,25 +43,35 @@ class ProductController
 		Renderer::getSmarty()->display('products/index.tpl');
 	}
 
-	public function edit()
+	/**
+	 * @param Request $request
+	 * @param ProductService $productService
+	 * @param ProductRepository $productRepository
+	 * @param ProductImageService $productImageService
+	 * @param Response $response
+	 * @param CategoryService $categoryService
+	 *
+	 * @route("/edit_product/{id}")
+	 */
+
+	public function edit(Request $request, ProductService $productService, ProductRepository $productRepository, ProductImageService $productImageService, Response $response, CategoryService $categoryService)
 	{
-		$id = Request::getIntFromGet('id', null);
+		$id = $request->getIntFromGet('id', null);
 
 		if (is_null($id)) {
 			$id = $this->route->getParam("id") ?? null;
 		}
 
-		$productRepository = new ProductRepository();
 		$product = [];
 
 		if ($id) {
-			$result = Product::getByID($id);
+			$result = $productService->getByID($id);
 			$product = $productRepository->getById($id);
 		}
 
-		if (Request::isPost()) {
+		if ($request->isPost()) {
 
-			$editedProduct = Product::getFromPost();
+			$editedProduct = $productService->getFromPost($request);
 
 			$product->setName($editedProduct["name"]);
 			$product->setArticle($editedProduct["article"]);
@@ -69,7 +82,7 @@ class ProductController
 			$categoryId = $editedProduct["category_id"] ?? 0;
 
 			if ($categoryId) {
-				$categoryData = Category::getByID($categoryId);
+				$categoryData = $categoryService->getByID($categoryId);
 				$categoryName = $categoryData["name"];
 				$category = new CategoryModel($categoryName);
 				$category->setId($categoryId);
@@ -80,69 +93,68 @@ class ProductController
 			$product = $productRepository->save($product);
 
 			$uploadImages = $_FILES['images'];
-			$image_url = Request::getStringFromPost("image_url");
+			$image_url = $request->getStringFromPost("image_url");
 
-			ProductImage::uploadImages($editedProduct["id"], $uploadImages);
-			ProductImage::uploadImageFromURL($editedProduct["id"], $image_url);
+			$productImageService->uploadImages($editedProduct["id"], $uploadImages);
+			$productImageService->uploadImageFromURL($editedProduct["id"], $image_url);
 
-			Response::redirect('/products/list');
+			$response->redirect('/products');
 		}
 
-		$categories = Category::getList();
+		$categories = $categoryService->getList();
 
 		Renderer::getSmarty()->assign('categories', $categories);
 		Renderer::getSmarty()->assign('editedProduct', $product);
 		Renderer::getSmarty()->display('products/edit.tpl');
 	}
 
-	public function add()
+	public function add(Request $request, ProductService $productService, ProductRepository $productRepository, ProductImageService $productImageService, Response $response, CategoryService $categoryService)
 	{
-		if (Request::isPost()) {
-			$productData = Product::getFromPost();
-			$productRepository = new Product\ProductRepository();
+		if ($request->isPost()) {
+			$productData = $productService->getFromPost($request);
 			$product = $productRepository->getProductFromArray($productData);
 
 			$product = $productRepository->save($product);
 			$product_id = $product->getId();
 
 			$uploadImages = $_FILES['images'];
-			$image_url = Request::getStringFromPost("image_url");
+			$image_url = $request->getStringFromPost("image_url");
 
 
-			ProductImage::uploadImages($product_id, $uploadImages);
-			ProductImage::uploadImageFromURL($product_id, $image_url);
+			$productImageService->uploadImages($product_id, $uploadImages);
+			$productImageService->uploadImageFromURL($product_id, $image_url);
 
 			if ($product_id) {
-				Response::redirect('/products/list');
+				$response->redirect('/products');
 			} else {
 				die('error');
 			}
 		}
 
-		$categories = Category::getList();
+		$categories = $categoryService->getList();
 
 		Renderer::getSmarty()->assign('categories', $categories);
 		Renderer::getSmarty()->display('products/add.tpl');
 	}
 
-	public function delete()
+	public function delete(Request $request, ProductService $productService, Response $response)
 	{
-		$id = Request::getIntFromPost('id', 0);
+		$id = $request->getIntFromPost('id', 0);
 
-		$is_deleted = Product::deleteByID($id);
+		$is_deleted = $productService->deleteByID($id);
 
 		if ($is_deleted) {
-			Response::redirect('/products/list');
+			$response->redirect('/products');
 		} else {
 			die('error');
 		}
 	}
 
-	public function deleteImage()
+	public function deleteImage(Request $request, ProductImageService $productImageService)
 	{
-		$id = Request::getIntFromPost('id', 0);
+		$id = $request->getIntFromPost('id', 0);
 
-		$is_deleted = ProductImage::deleteByID($id);
+		$is_deleted = $productImageService->deleteByID($id);
 
 		if ($is_deleted) {
 			echo 1;

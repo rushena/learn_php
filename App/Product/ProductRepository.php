@@ -4,12 +4,17 @@ namespace App\Product;
 
 use App\Category\CategoryModel;
 use App\Db\Db;
-use App\ProductImage;
-use App\ProductImage as ProductImageService;
 
 class ProductRepository
 {
 	protected $limit = 50;
+
+	public function getListCount()
+	{
+		$query = "SELECT COUNT(1) as c FROM products p LEFT JOIN categories c ON p.category_id = c.id";
+
+		return Db::fetchOne($query);
+	}
 
 	/**
 	 * @param array $data
@@ -50,7 +55,7 @@ class ProductRepository
 			$categoryName = $data["category_name"] ?? null;
 
 			if (is_null($categoryName)) {
-				$categoryData = \App\Category::getByID($categoryId);
+				$categoryData = \App\CategoryService::getByID($categoryId);
 				$categoryName = $categoryData["name"];
 			}
 			$category = new CategoryModel($categoryName);

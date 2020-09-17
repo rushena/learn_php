@@ -4,47 +4,47 @@ namespace App;
 
 use App\Db\Db;
 
-class Category {
+class CategoryService {
 
-	public static function getList() {
+	public function getList() {
 
 		$query = "SELECT * from `categories`";
 
 		return Db::fetchAll($query);
 	}
 
-	public static function getByCategoryName(string $categoryName) {
+	public function getByCategoryName(string $categoryName) {
 	    $query = "SELECT * from `categories` WHERE name='$categoryName'";
 	    return Db::fetchRow($query);
     }
 
-	public static function getByID($id) {
+	public function getByID($id) {
 		$query = "SELECT * from `categories` WHERE id=$id";
 		return Db::fetchRow($query);
 	}
 
-	public static function updateByID($id, $category) {
+	public function updateByID($id, $category) {
 		if (isset($category['id'])) {
 			unset($category['id']);
 		}
 		return Db::update('categories', $category, "id = $id");
 	}
 
-	public static function add($category) {
+	public function add($category) {
 		if (isset($category['id'])) {
 			unset($category['id']);
 		}
 		return Db::insert('categories', $category);
 	}
 
-	public static function deleteByID($id) {
+	public function deleteByID($id) {
 		return Db::delete("categories", "id=$id");
 	}
 
-	public static function getFromPost() {
+	public function getFromPost(Request $request) {
 		return [
-			'id' => Request::getIntFromPost('id', 0),
-			'name' => Request::getStringFromPost('name'),
+			'id' => $request->getIntFromPost('id', 0),
+			'name' => $request->getStringFromPost('name'),
 		];
 	}
 

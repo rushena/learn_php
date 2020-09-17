@@ -53,29 +53,29 @@ class Import
 				'description' => Db::escape($productData['description']),
 			];
 
-			$category = Category::getByCategoryName($productData['category_name']);
+			$category = CategoryService::getByCategoryName($productData['category_name']);
 
 			if (empty($category)) {
-				$product["category_id"] = Category::add([
+				$product["category_id"] = CategoryService::add([
 					"name" => $productData['category_name'],
 				]);
 			} else {
 				$product["category_id"] = $category["id"];
 			}
 
-			$targetProduct = Product::getByField($mainField, $product[$mainField]);
+			$targetProduct = ProductService::getByField($mainField, $product[$mainField]);
 			$productId = 0;
 
 			if (empty($targetProduct)) {
-				$productId = Product::add($product);
+				$productId = ProductService::add($product);
 			} else {
 				$productId = $targetProduct["id"];
 				$targetProduct = array_merge($targetProduct, $product);
-				Product::updateByID($productId, $targetProduct);
+				ProductService::updateByID($productId, $targetProduct);
 			}
 
 			foreach ($productData["image_urls"] as $image) {
-				ProductImage::uploadImageFromURL($productId, $image);
+				ProductImageService::uploadImageFromURL($productId, $image);
 			}
 		}
 

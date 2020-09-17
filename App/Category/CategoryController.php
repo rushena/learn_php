@@ -2,8 +2,8 @@
 
 namespace App\Category;
 
-use App\Category;
-use App\Product;
+use App\CategoryService;
+use App\ProductService;
 use App\Renderer;
 use App\Request;
 use App\Response;
@@ -22,7 +22,7 @@ class CategoryController
 
 	public function list()
 	{
-		Renderer::getSmarty()->assign('categories', Category::getList());
+		Renderer::getSmarty()->assign('categories', CategoryService::getList());
 
 		Renderer::getSmarty()->display('categories/index.tpl');
 	}
@@ -31,9 +31,9 @@ class CategoryController
 	{
 		if (Request::isPost()) {
 
-			$category = Category::getFromPost();
+			$category = CategoryService::getFromPost();
 
-			$is_added = Category::add($category);
+			$is_added = CategoryService::add($category);
 
 			if ($is_added) {
 				Response::redirect('/categories/list');
@@ -49,7 +49,7 @@ class CategoryController
 	{
 		$id = Request::getIntFromPost('id', 0);
 
-		$is_deleted = Category::deleteByID($id);
+		$is_deleted = CategoryService::deleteByID($id);
 
 		if ($is_deleted) {
 			Response::redirect('/categories/list');
@@ -66,14 +66,14 @@ class CategoryController
 			$id = $this->route->getParam('id') ?? null;
 		}
 
-		$result = Category::getByID($id);
+		$result = CategoryService::getByID($id);
 
 		if (Request::isPost()) {
 
-			$editedCategory = Category::getFromPost();
+			$editedCategory = CategoryService::getFromPost();
 
 
-			$is_updated = Category::updateByID($editedCategory['id'], $editedCategory);
+			$is_updated = CategoryService::updateByID($editedCategory['id'], $editedCategory);
 
 			if ($is_updated) {
 				Response::redirect('/categories/list');
@@ -94,8 +94,8 @@ class CategoryController
 			$id = $this->route->getParam('id') ?? null;
 		}
 
-		$products = Product::getListByCategoryID($id);
-		$currentCategory = Category::getByID($id);
+		$products = ProductService::getListByCategoryID($id);
+		$currentCategory = CategoryService::getByID($id);
 
 		Renderer::getSmarty()->assign('products', $products);
 		Renderer::getSmarty()->assign('current_category', $currentCategory);

@@ -34,7 +34,7 @@
 						{foreach from=$editedProduct->getImages() item=image}
 							<div class="border edit-image-item">
 								<img height="50" src="{$image->getPath()}" alt="{$image->getName()|strip_tags}"><br>
-								<button data-image-id="{$image->getId}" type="button" class="btn btn-danger delete-image btn-sm js-delete-image">Удалить</button>
+								<button data-image-id="{$image->getId()}" type="button" class="btn btn-danger delete-image btn-sm js-delete-image">Удалить</button>
 							</div>
 						{/foreach}
 					</div>

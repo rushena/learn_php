@@ -25,6 +25,29 @@ class FS {
 		return true;
 	}
 
+	public static function scanDir($dir)
+	{
+		$list = scandir($dir);
+
+		$list =  array_filter($list, function($item) {
+			return !in_array($item, [".", ".."]);
+		});
+
+		$filenames = [];
+
+		foreach ($list as $filename) {
+			$filepath = $dir . '/' . $filename;
+
+			if (!is_dir($filepath)) {
+				$filenames[] = $filepath;
+			} else {
+				$filenames = array_merge($filenames, self::scanDir($filepath));
+			}
+		}
+
+		return $filenames;
+	}
+
     public static function deleteFile($path) {
         if (!file_exists($path) && is_file($path)) {
             unlink($path);

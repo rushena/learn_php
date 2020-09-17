@@ -117,6 +117,7 @@ class Route
 		if(is_null($controllerName)) {
 			throw new NotFoundException();
 		}
+
 		$methodName = $this->getMethod();
 		$controller = new $controllerName($this);
 
